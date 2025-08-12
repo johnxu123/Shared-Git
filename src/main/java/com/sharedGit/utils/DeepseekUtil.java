@@ -18,7 +18,7 @@ import java.util.Map;
 public class DeepseekUtil {
 
     private static final String baseUrl="https://api.deepseek.com/chat/completions";
-    private static final String API_KEY="sk-d728c443f64a4a369bac7a9603408d80";
+    private static final String API_KEY="";
     private static final ObjectMapper mapper=new ObjectMapper();
 
 
