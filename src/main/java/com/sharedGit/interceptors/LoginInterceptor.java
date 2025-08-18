@@ -4,10 +4,12 @@ import com.sharedGit.utils.JwtUtil;
 import com.sharedGit.utils.ThreadLocalUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import java.util.Map;
 
+@Component
 public class LoginInterceptor implements HandlerInterceptor {
 
     @Override

@@ -35,15 +35,16 @@ public class FileController {
 
     @PostMapping("/upload")
     public Result upload(MultipartFile file) throws IOException {
+        System.out.println(System.getProperty("user.dir"));
         String originalFilename=file.getOriginalFilename();
-        String localpath="D:\\Javaproject\\Shared-Git\\files"+ UUID.randomUUID().toString() +originalFilename.substring(originalFilename.lastIndexOf("."));
+        String localpath="./files/"+ UUID.randomUUID().toString() +originalFilename.substring(originalFilename.lastIndexOf("."));
         file.transferTo(new java.io.File(localpath));
         return  Result.success(localpath);
     }
 
     @PostMapping()
-    public Result addFile(Integer repoid,String path, @RequestParam(required = false)Integer editor,String filetype,String message){
-        fileService.addFile(repoid,path,editor,filetype,message);
+    public Result addFile(Integer repoid,String path, @RequestParam(required = false)Integer editor,String filename,String message){
+        fileService.addFile(repoid,path,editor,filename,message);
         return Result.success();
     }
 
@@ -62,9 +63,15 @@ public class FileController {
         return Result.success(content);
     }
 
+    @PostMapping("/update")
+    public Result updateCode(Integer fileid,String newcode, @RequestParam(required = false)Integer editor, @RequestParam(required = false)String message) throws IOException {
+        fileService.updatecode(fileid,newcode,editor,message);
+        return Result.success();
+    }
+
     @PutMapping()
-    public Result updateFile(Integer fileid, String newFilePath, @RequestParam(required = false)Integer editor, String filetype, String message){
-        fileService.updateFile(fileid,newFilePath,editor,filetype,message);
+    public Result updateFile(Integer fileid, String newFilePath, @RequestParam(required = false)Integer editor, String filename, String message){
+        fileService.updateFile(fileid,newFilePath,editor,filename,message);
         return Result.success();
     }
 

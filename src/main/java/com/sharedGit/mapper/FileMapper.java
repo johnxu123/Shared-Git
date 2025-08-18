@@ -17,8 +17,8 @@ public interface FileMapper {
     @Select("select * from file inner join version on file.fileid=version.fileid and file.version=version.version where repoid=#{repoid}")
     List<File> getFileListByRepoid(Integer repoid);
 
-    @Insert("insert into version (fileid,repoid,path,ediotr,version) values (#{fileid},#{repoid},#{path},#{editor},#{verion})")
-    void addVersion(Integer fileid,Integer repoid, String path, Integer editor, Integer version, String filetype, String message);
+    @Insert("insert into version (fileid,repoid,path,ediotr,version,filename,message) values (#{fileid},#{repoid},#{path},#{editor},#{verion},{filename},#{message})")
+    void addVersion(Integer fileid,Integer repoid, String path, Integer editor, Integer version, String filename, String message);
 
     @Insert("insert into file (repoid) values (#{repoid})")
     @Options(useGeneratedKeys = true, keyProperty = "fileid")

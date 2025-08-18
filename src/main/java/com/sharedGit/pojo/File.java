@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 public class File {
     private Integer id;
     private Integer fileid;
+    private String filename;
     private Integer repoid;
     private Integer version;
     private String path;

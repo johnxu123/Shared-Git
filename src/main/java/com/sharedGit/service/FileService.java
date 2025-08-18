@@ -2,6 +2,7 @@ package com.sharedGit.service;
 
 import com.sharedGit.pojo.File;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface FileService {
@@ -9,9 +10,9 @@ public interface FileService {
 
     List<File> getFileListByRepoid(Integer repoid);
 
-    void addFile(Integer repoid, String path, Integer editor, String filetype, String message);
+    void addFile(Integer repoid, String path, Integer editor, String filename, String message);
 
-    void updateFile(Integer fileid, String newFilePath, Integer editor, String filetype, String message);
+    void updateFile(Integer fileid, String newFilePath, Integer editor, String filename, String message);
 
     void deleteFile(Integer fileid);
 
@@ -24,4 +25,6 @@ public interface FileService {
     List<File> getRubbishList();
 
     void restoreVerion(Integer fileid, Integer version);
+
+    void updatecode(Integer fileid, String newcode,Integer editor,String message) throws IOException;
 }
