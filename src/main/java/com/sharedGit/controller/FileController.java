@@ -11,6 +11,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,6 +23,8 @@ public class FileController {
 
     @Autowired
     FileService fileService;
+
+    private static final String FILE_PATH="/files/";
 
     @GetMapping("/user")
     public Result<List<File>> getFileListByUserid(Integer userid){
@@ -35,9 +40,14 @@ public class FileController {
 
     @PostMapping("/upload")
     public Result upload(MultipartFile file) throws IOException {
-        System.out.println(System.getProperty("user.dir"));
+        String currentPath=System.getProperty("user.dir");
         String originalFilename=file.getOriginalFilename();
-        String localpath="./files/"+ UUID.randomUUID().toString() +originalFilename.substring(originalFilename.lastIndexOf("."));
+        Path fileDir= Paths.get(currentPath +FILE_PATH);
+        if (!Files.exists(fileDir)) {
+            Files.createDirectories(fileDir);
+        }
+        String localpath=fileDir+"/"+ UUID.randomUUID().toString() +originalFilename.substring(originalFilename.lastIndexOf("."));
+        System.out.println("文件将被保存到"+localpath);
         file.transferTo(new java.io.File(localpath));
         return  Result.success(localpath);
     }

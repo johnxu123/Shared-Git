@@ -41,6 +41,7 @@ public class UserController {
     @PostMapping("/login")
     public Result login(String username,String password){
         User loginuser=userService.findByUsername(username);
+        if(loginuser==null) loginuser=userService.findByEmail(username);
         if(loginuser==null) return Result.error("该用户名不存在");
         if(Md5Util.checkPassword(password,loginuser.getPassword())){
             Map<String,Object>claims=new HashMap<>();
@@ -54,10 +55,27 @@ public class UserController {
         }
     }
 
+    @GetMapping()
+    public Result getUserInfo(){
+        Map<String,Object> claims=ThreadLocalUtil.get();
+        Integer userid=(Integer)claims.get("userid");
+        User user=userService.findById(userid);
+        return Result.success(user);
+    }
+
     @PutMapping()
     public Result updateInfo(@RequestBody User user){
-        userService.updateInfo(user);
-        return Result.success();
+        User userServiceByEmail=userService.findByEmail(user.getEmail());
+        if(userServiceByEmail!=null) return Result.error("该邮箱已经被占用");
+        User userServiceByUsername =userService.findByUsername(user.getUsername());
+        if(userServiceByUsername!=null) return Result.error("该用户名已经被占用");
+        if(user.getSex().equals("男") || user.getSex().equals("女")){
+            userService.updateInfo(user);
+            return Result.success();
+        }
+        else{
+            return Result.error("性别必须为“男”或“女”");
+        }
     }
 
     @PatchMapping()
