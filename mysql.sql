@@ -1,28 +1,31 @@
--- drop database gitshare;
--- create database gitshare;
+drop database gitshare;
+create database gitshare;
 use gitshare;
 
 
--- create table user(
--- userid BIGINT PRIMARY KEY auto_increment, 
--- username VARCHAR(50) NOT NULL UNIQUE, 
--- password varchar(255),
--- email VARCHAR(100) NOT NULL UNIQUE, 
+create table user(
+userid BIGINT PRIMARY KEY auto_increment, 
+username VARCHAR(50) NOT NULL UNIQUE, 
+password varchar(255),
+email VARCHAR(100) NOT NULL UNIQUE, 
 -- role ENUM('0','1') NOT NULL default '0', 
--- create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
--- update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+sex enum('男','女') default '男',
+age int,
+telephone varchar(20),
+nation varchar(40));
 
--- CREATE TABLE repo(
--- repoid BIGINT PRIMARY KEY auto_increment, 
--- reponame VARCHAR(100), 
--- description TEXT, 
--- isprivate BOOLEAN DEFAULT FALSE, 
--- language VARCHAR(50), 
--- stars INT DEFAULT 0, 
--- ownerid BIGINT NOT NULL, 
--- create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
--- update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
--- FOREIGN KEY(ownerid) REFERENCES user(userid) ON DELETE CASCADE);
+CREATE TABLE repo(
+repoid BIGINT PRIMARY KEY auto_increment, 
+reponame VARCHAR(100), 
+description TEXT, 
+isprivate BOOLEAN DEFAULT FALSE, 
+language VARCHAR(50), 
+stars INT DEFAULT 0, 
+ownerid BIGINT NOT NULL, 
+create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY(ownerid) REFERENCES user(userid) ON DELETE CASCADE);
 
 CREATE TABLE file(
 fileid BIGINT PRIMARY KEY auto_increment, 
@@ -46,12 +49,13 @@ FOREIGN KEY (editor) REFERENCES user(userid),
 FOREIGN KEY (fileid) REFERENCES file(fileid) ON DELETE CASCADE, 
 UNIQUE KEY(fileid,version));
 
--- create table interest(
--- userid BIGINT, 
--- interestid BIGINT, 
--- primary key(userid,interestid),
--- FOREIGN KEY (userid) REFERENCES user(userid) ON DELETE CASCADE,
--- FOREIGN KEY (interestid)  REFERENCES user(userid));
+create table interest(
+userid BIGINT, 
+interestid BIGINT, 
+primary key(userid,interestid),
+FOREIGN KEY (userid) REFERENCES user(userid) ON DELETE CASCADE,
+FOREIGN KEY (interestid)  REFERENCES user(userid));
 
 -- select * from user;
-select * from interest;
+-- select * from interest;
+-- select * from file;
